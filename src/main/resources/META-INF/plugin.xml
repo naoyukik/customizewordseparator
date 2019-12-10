@@ -1,11 +1,10 @@
 <idea-plugin>
-  <id>net.dstribe.custom_word_separator</id>
-  <name>Custom word separator</name>
+  <id>net.dstribe.custom_word_separators</id>
+  <name>Custom word separators</name>
   <vendor email="mmaga+github@dstribe.net">DsTribe</vendor>
 
   <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    This plugin customizes word separators.
     ]]></description>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -19,13 +18,17 @@
   </extensions>
 
   <actions>
-    <group id="MyPlugin.SampleMenu" text="MultiByteWordSeparator"
-      description="Multi byte word separates">
+    <group id="dstribe.CustomWordSeparators" text="CustomWordSeparators"
+      description="Custom word separators">
       <add-to-group group-id="MainMenu" anchor="last"/>
-      <action class="moveLeftAction" id="net.dstribe.multibytewordseparate.previous"
-        text="Move Caret to Previous Word" description="Multi byte word move left"/>
-      <action class="moveRightAction" id="net.dstribe.multibytewordseparate.next"
-        text="Move Caret to Next Word" description="Multi byte word move Right"/>
+      <action class="moveLeftAction" id="net.dstribe.customwordseparators.previous"
+        text="Move Caret to Previous Word" description="Custom word move left"/>
+      <action class="moveRightAction" id="net.dstribe.customwordseparators.next"
+        text="Move Caret to Next Word" description="Custom word move Right"/>
+      <action class="moveLeftWithSelectionAction"
+        id="net.dstribe.customwordseparators.previous.selection"
+        text="Move Caret to Previous Word With Selection"
+        description="Custom word move left with selection"/>
     </group>
   </actions>
 </idea-plugin>
