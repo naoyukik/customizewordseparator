@@ -16,16 +16,22 @@ class MoveCaretLogic {
     MBWS = new MultiByteWordSeparate();
   }
 
-  boolean moveCaret(@NotNull AnActionEvent e, String sign) {
+  boolean moveCaret(@NotNull AnActionEvent e, String sign, boolean isSelection) {
     /* 初期化 */
     MBWS.initialize(e);
     Caret primaryCaret = MBWS.editor.getCaretModel().getPrimaryCaret();
+    List<Caret> allCarets = MBWS.editor.getCaretModel().getAllCarets();
+    Caret currentCaret = MBWS.editor.getCaretModel().getCurrentCaret();
     Document document = MBWS.editor.getDocument();
+
 
     /* 現在のキャレット情報 */
     MBWS.getCurrentCaretInfo(primaryCaret);
     MBWS.getCurrentLineInfo(document, MBWS.visualPos);
     int currentCaretOffset = MBWS.currentCaretOffset;
+
+    /* 現在の選択範囲オフセット */
+    int currentSelectionEnd = primaryCaret.getSelectionEnd();
 
     // テキスト取得範囲のオフセット
     int moveRange = 1;
@@ -49,6 +55,9 @@ class MoveCaretLogic {
     /* 行頭なら強制で1文字分オフセットを移動する */
     if (MBWS.isLineBoundary(currentCaretOffset, boundaryOffset)) {
       primaryCaret.moveToOffset(currentCaretOffset + moveRange);
+      if (isSelection) {
+        primaryCaret.setSelection(currentCaretOffset - 1, currentSelectionEnd, true);
+      }
       return true;
     }
 
@@ -72,6 +81,9 @@ class MoveCaretLogic {
 
     // 現在位置からカーソルの移動
     primaryCaret.moveToOffset(currentCaretOffset + wordLength);
+    if (isSelection) {
+      primaryCaret.setSelection(currentCaretOffset + wordLength, currentSelectionEnd, true);
+    }
     return true;
   }
 

@@ -3,17 +3,17 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
 
 
-public class moveLeftWithSelectionAction extends AnAction {
+public class moveRightWithSelectionAction extends AnAction {
 
   private MoveCaretLogic MCL;
 
-  public moveLeftWithSelectionAction() {
+  public moveRightWithSelectionAction() {
     MCL = new MoveCaretLogic();
   }
 
   @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
-    MCL.moveCaret(e, MCL.signMinus, true);
+    MCL.moveCaret(e, MCL.signPlus, true);
 
     // get Word under carsor
     // primaryCaret.moveToOffset(1);

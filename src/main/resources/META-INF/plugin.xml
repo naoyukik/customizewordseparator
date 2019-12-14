@@ -29,6 +29,10 @@
         id="net.dstribe.customwordseparators.previous.selection"
         text="Move Caret to Previous Word With Selection"
         description="Custom word move left with selection"/>
+      <action class="moveRightWithSelectionAction"
+        id="net.dstribe.customwordseparators.next.selection"
+        text="Move Caret to Next Word With Selection"
+        description="Custom word move right with selection"/>
     </group>
   </actions>
 </idea-plugin>

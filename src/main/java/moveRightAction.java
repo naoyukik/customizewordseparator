@@ -14,7 +14,7 @@ public class moveRightAction extends AnAction {
   @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
     // キーの移動距離
-    boolean result = MCL.moveCaret(e, MCL.signPlus);
+    MCL.moveCaret(e, MCL.signPlus, false);
 
 //    /* 初期化 */
 //    MBWS.initialize(e);

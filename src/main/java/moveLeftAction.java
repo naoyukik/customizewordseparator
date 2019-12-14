@@ -13,7 +13,7 @@ public class moveLeftAction extends AnAction {
 
   @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
-    MCL.moveCaret(e, MCL.signMinus);
+    MCL.moveCaret(e, MCL.signMinus, false);
 
     // get Word under carsor
     // primaryCaret.moveToOffset(1);
