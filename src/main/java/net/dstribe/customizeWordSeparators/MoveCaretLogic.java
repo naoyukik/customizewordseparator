@@ -1,3 +1,5 @@
+package net.dstribe.customizeWordSeparators;
+
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Document;

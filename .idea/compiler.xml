@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="custom_word_separators.main" target="1.8" />
+      <module name="custom_word_separators.test" target="1.8" />
       <module name="net.dstribe.multibyte_word_separator.main" target="1.8" />
       <module name="net.dstribe.multibyte_word_separator.test" target="1.8" />
     </bytecodeTargetLevel>

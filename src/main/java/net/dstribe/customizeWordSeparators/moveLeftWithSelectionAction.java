@@ -1,19 +1,21 @@
+package net.dstribe.customizeWordSeparators;
+
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
 
 
-public class moveLeftAction extends AnAction {
+public class moveLeftWithSelectionAction extends AnAction {
 
   private MoveCaretLogic MCL;
 
-  public moveLeftAction() {
+  public moveLeftWithSelectionAction() {
     MCL = new MoveCaretLogic();
   }
 
   @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
-    MCL.moveCaret(e, MCL.signMinus, false);
+    MCL.moveCaret(e, MCL.signMinus, true);
 
     // get Word under carsor
     // primaryCaret.moveToOffset(1);

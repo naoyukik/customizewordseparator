@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'net.dstribe'
-version '1.0'
+version '0.0.1'
 sourceCompatibility = 1.8
 
 repositories {
@@ -16,12 +16,18 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2019.2'
+    version '2019.1'
+    pluginName 'Customize word separators'
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      Initial release.
+      This version dose not support Multiple caret and Customize word separators."""
+    untilBuild null
+    pluginDescription 'This plugin allows you to customize the word separator.'
 }
 
+publishPlugin {
+    host 'https://github.com/naoyukik/customwordseparator'
+}
 tasks.withType(AbstractCompile)*.options*.encoding = tasks.withType(GroovyCompile)*.groovyOptions*.encoding = 'UTF-8'
