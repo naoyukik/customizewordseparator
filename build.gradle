@@ -22,7 +22,8 @@ intellij {
 patchPluginXml {
     changeNotes """
       Initial release.
-      This version dose not support Multiple caret and Customize word separators."""
+      This version dose not support Customize word separators.
+      And this plugin dose not support "camelHumps worad"  """
     untilBuild null
     pluginDescription 'This plugin allows you to customize the word separator.'
 }
