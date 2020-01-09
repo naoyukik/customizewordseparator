@@ -138,3 +138,7 @@ gradle-app.setting
 
 ### Plugin config ###
 CodicPluginSettings.xml
+CustomizeWordSeparatorsState.xml
+
+### Project Files ###
+gradle.properties
