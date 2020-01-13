@@ -5,16 +5,14 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 public class NextWordAction extends AnAction {
   @Override
   public void update(@NotNull final AnActionEvent e) {
-    final Project project = e.getProject();
     final Editor editor = e.getData(CommonDataKeys.EDITOR);
     boolean menuAllowed = false;
-    if (editor != null && project != null) {
+    if (editor != null && e.getProject() != null) {
       menuAllowed = !editor.getCaretModel().getAllCarets().isEmpty();
     }
     e.getPresentation().setEnabledAndVisible(menuAllowed);

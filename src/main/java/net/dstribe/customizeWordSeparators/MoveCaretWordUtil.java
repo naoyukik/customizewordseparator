@@ -9,7 +9,6 @@ import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,8 +17,8 @@ import java.util.regex.Pattern;
 public class MoveCaretWordUtil {
 
   /**
-   * @param editor          opneapi.Editor
-   * @param caret           opneapi.Caret
+   * @param editor          openapi.Editor
+   * @param caret           openapi.Caret
    * @param isNext          true when move to next
    * @param isWithSelection true when with selection
    * @param dataContext     openapi.DataContext
@@ -102,8 +101,8 @@ public class MoveCaretWordUtil {
   }
 
   /**
-   * @param editor          opneapi.Editor
-   * @param caret           opneapi.Caret
+   * @param editor          openapi.Editor
+   * @param caret           openapi.Caret
    * @param isNext          true when move to next
    * @param isWithSelection true when with selection
    * @param dataContext     openapi.DataContext
@@ -127,7 +126,7 @@ public class MoveCaretWordUtil {
   }
 
   /**
-   * @param caret           opneapi.Caret
+   * @param caret           openapi.Caret
    * @param isWithSelection true when with selection
    * @param startOffset     Start offset of the selection
    */
@@ -162,12 +161,16 @@ public class MoveCaretWordUtil {
   }
 
   private static List<String> wordParse(String character) {
-    List<String> listPatterns = getUserPatterns();
-    if (listPatterns.size() == 0) {
-      HashMap<String, String> mapPatterns = getDefaultPatterns();
-      listPatterns = new ArrayList<>(mapPatterns.values());
-    }
-    String pattern = String.join("|", listPatterns);
+    HashMap<String, String> userPatternsMap = getUserPatterns();
+    List<String> userPatterns = new ArrayList<>(userPatternsMap.values());
+    HashMap<String, String> defaultPatternsMap = getDefaultPatterns();
+    List<String> defaultPatterns = new ArrayList<>(defaultPatternsMap.values());
+    userPatterns.addAll(defaultPatterns);
+    //if (listPatterns.isEmpty()) {
+    //  HashMap<String, String> mapPatterns = getDefaultPatterns();
+    //  listPatterns = new ArrayList<>(mapPatterns.values());
+    //}
+    String pattern = String.join("|", userPatterns);
     Pattern p = Pattern.compile(pattern);
     Matcher m = p.matcher(character);
 
@@ -187,9 +190,19 @@ public class MoveCaretWordUtil {
     return matchArray;
   }
 
-  private static List<String> getUserPatterns() {
-    String patterns = NextPrevWordHandler.getUserPattern();
-    return Arrays.asList(patterns.split("\n"));
+  private static HashMap<String, String> getUserPatterns() {
+    HashMap<String, String> patternMap = new HashMap<>();
+    String userPattern = NextPrevWordHandler.getUserPattern();
+    if (userPattern.isEmpty()) {
+      return patternMap;
+    }
+    String[] lines = userPattern.split("\n");
+    for (String line : lines) {
+      String[] items = line.split(",");
+      patternMap.put(items[0], items[1]);
+    }
+    return patternMap;
+    //return new ArrayList<>(Arrays.asList(userPattern.split("\n")));
   }
 
   private static HashMap<String, String> getDefaultPatterns() {
@@ -206,12 +219,23 @@ public class MoveCaretWordUtil {
     patterns.put("halfKatakana", "[\\uFF66-\\uFF9F]+");
     patterns.put("fullSymbol",
                  "[\\uFF01-\\uFF0F\\uFF1A-\\uFF20\\uFF3B-\\uFF40\\uFF5B-\\uFF60\\uFFE0-\\uFFE6\\u005C\\u00A2\\u00A3\\u00A7\\u00A8\\u00AC\\u00B0\\u00B1\\u00B4\\u00B6\\u00D7\\u00F7\\u2010\\u2015\\u2016\\u2018\\u2019\\u201C\\u201D\\u2020\\u2021\\u2025\\u2026\\u2030\\u2032\\u2033\\u203B\\u2103]+");
-    //patterns.put("halfSymbol", "[\\uFFE8-\\uFFEE]+");
-    //patterns.put("latin", "[\\u0030-\\u0039\\u0041-\\u005A\\u0061-\\u007A\\u005F]+");
-    //patterns.put("latinSymbol",
-    //             "[\\u0020-\\u002F\\u003A-\\u0040\\u005B-\\u005E\\u0060\\u00A5\\u007B-\\u007E\\u203E]+");
-    //patterns.put("czeroControls", "[\\u0000-\\u0009\\u000B\\u000C\\u000E-\\u001F]+");
-    //patterns.put("controlCharacters", "[\\u000A\\u000D]+");
+    patterns.put("halfSymbol", "[\\uFFE8-\\uFFEE]+");
+    patterns.put("latin", "[\\u0030-\\u0039\\u0041-\\u005A\\u0061-\\u007A]+");
+    patterns.put("latinSymbol",
+                 "[\\u0020-\\u0021\\u0023\\u0025-\\u0026\\u002A-\\u002F\\u003A-\\u003B\\u003D\\u003F-\\u0040\\u005C\\u005E\\u0060\\u00A5\\u007C\\u007E\\u203E]+");
+    patterns.put("czeroControls", "[\\u0000-\\u0009\\u000B\\u000C\\u000E-\\u001F]+");
+    patterns.put("controlCharacters", "[\\u000A\\u000D]+");
+    patterns.put("\"", "\\u0022");
+    patterns.put("'", "\\u0027");
+    patterns.put("(", "\\u0028");
+    patterns.put(")", "\\u0029");
+    patterns.put("<", "\\u003C");
+    patterns.put(">", "\\u003E");
+    patterns.put("[", "\\u005B");
+    patterns.put("]", "\\u005D");
+    patterns.put("{", "\\u007B");
+    patterns.put("}", "\\u007D");
+    patterns.put("ideaSigns", "[\\u0024\\u005F]+");
 
     return patterns;
   }
