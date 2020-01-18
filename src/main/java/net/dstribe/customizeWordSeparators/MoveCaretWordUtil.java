@@ -32,6 +32,7 @@ public class MoveCaretWordUtil {
                                    boolean camel) {
     final Document document = editor.getDocument();
     VisualPosition visualPos = caret.getVisualPosition();
+    LogicalPosition logicalPos = caret.getLogicalPosition();
     int currentCaretOffset = caret.getOffset();
     int selectionStart = caret.getLeadSelectionOffset();
 
@@ -45,8 +46,11 @@ public class MoveCaretWordUtil {
     }
     else {
       // Current Line
-      int startLineOffset = document.getLineStartOffset(visualPos.line);
-      int currentLineNumber = visualPos.line;
+      //int startLineOffset = document.getLineStartOffset(visualPos.line);
+      int startLineOffset = document.getLineStartOffset(logicalPos.line);
+      //int currentLineNumber = visualPos.line;
+      int currentLineNumber = logicalPos.line;
+      //int endLineOffset = document.getLineEndOffset(currentLineNumber);
       int endLineOffset = document.getLineEndOffset(currentLineNumber);
 
       if (currentLineNumber >= document.getLineCount()) return;
@@ -166,10 +170,6 @@ public class MoveCaretWordUtil {
     HashMap<String, String> defaultPatternsMap = getDefaultPatterns();
     List<String> defaultPatterns = new ArrayList<>(defaultPatternsMap.values());
     userPatterns.addAll(defaultPatterns);
-    //if (listPatterns.isEmpty()) {
-    //  HashMap<String, String> mapPatterns = getDefaultPatterns();
-    //  listPatterns = new ArrayList<>(mapPatterns.values());
-    //}
     String pattern = String.join("|", userPatterns);
     Pattern p = Pattern.compile(pattern);
     Matcher m = p.matcher(character);
@@ -193,7 +193,7 @@ public class MoveCaretWordUtil {
   private static HashMap<String, String> getUserPatterns() {
     HashMap<String, String> patternMap = new HashMap<>();
     String userPattern = NextPrevWordHandler.getUserPattern();
-    if (userPattern.isEmpty()) {
+    if (userPattern == null || userPattern.isEmpty()) {
       return patternMap;
     }
     String[] lines = userPattern.split("\n");
@@ -206,7 +206,7 @@ public class MoveCaretWordUtil {
   }
 
   private static HashMap<String, String> getDefaultPatterns() {
-    HashMap<String, String> patterns = new HashMap<>(15);
+    HashMap<String, String> patterns = new HashMap<>(26);
     patterns.put("cjk", "[\\u3400-\\u9FFF\\uF900-\\uFAFF]+");
     patterns.put("hiragana", "[\\u3040-\\u309F]+");
     patterns.put("katakana", "[\\u30A1-\\u30FA\\u30FC-\\u30FE]+");
